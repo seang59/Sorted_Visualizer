@@ -4,9 +4,11 @@ import random
 def get_rand_number_list(amount: int) -> list[int]:
     try:
         number_list = list(range(1, amount + 1))
+
     except Exception as e:
-        print(f"Imput amount invalid: {e}")
+        print(f"Input amount invalid: {e}")
         return []
+    
     random.shuffle(number_list)
 
     return number_list
