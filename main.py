@@ -1,8 +1,9 @@
 import matplotlib.pyplot as plt
-import random
 import keyboard
 from bubble_sort import bubble_sort
 from get_rand_numbers_list import get_rand_number_list
+
+ANIMATION_STEPS = 10
 
 
 def main():
@@ -17,23 +18,25 @@ def main():
     axis.set_xlabel('Categories')
     axis.set_ylabel('Values')
 
-    while True:
+    for state, idx1, idx2 in bubble_sort(y_values):
         if keyboard.is_pressed('q'):
             plt.close(figure)
             break
 
-        #random.shuffle(y_values)
-        y_values = bubble_sort(y_values)
+        old_h1 = bars[idx1].get_height()
+        old_h2 = bars[idx2].get_height()
+        new_h1 = state[idx1]
+        new_h2 = state[idx2]
 
-        for bar, new_height in zip(bars, y_values):
-            bar.set_height(new_height)
-            
-        figure.canvas.draw_idle()
-        plt.pause(.01)
-    
+        for step in range(1, ANIMATION_STEPS + 1):
+            t = step / ANIMATION_STEPS
+            bars[idx1].set_height(old_h1 + t * (new_h1 - old_h1))
+            bars[idx2].set_height(old_h2 + t * (new_h2 - old_h2))
+            figure.canvas.draw_idle()
+            plt.pause(0.001)
+
     plt.ioff()
-    
+
+
 if __name__ == "__main__":
     main()
-
-
